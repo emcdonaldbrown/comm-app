@@ -5,6 +5,7 @@ import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import db from "./Firebase";
 import Message from "./Message";
+import ChatInput from "./ChatInput";
 
 function Chat() {
     const { roomId } = useParams();
@@ -14,17 +15,16 @@ function Chat() {
     useEffect(() => {
         if (roomId) {
             db.collection("rooms").doc(roomId)
-            .onSnapshot(snapshot => (
-                setRoomDetails(snapshot.data())
-            ))
+            .onSnapshot((snapshot) => 
+                setRoomDetails(snapshot.data()));
         }
 
-        db.collection('rooms').doc(roomId)
-        .collection('messages')
-        .orderBy('timestamp','asc')
+        db.collection("rooms").doc(roomId)
+        .collection("messages")
+        .orderBy("timestamp","asc")
         .onSnapshot((snapshot) =>
             setRoomMessages(snapshot.docs.map((doc) => doc.data()))
-        )
+        );
     }, [roomId]);
 
     return (
@@ -45,16 +45,17 @@ function Chat() {
             </div>
 
             <div className="chat__messages">
-                {roomMessages.map(({message, timestamp, user, userImage}) => {
-                    return (
-                        <Message
-                            message={message}
-                            timestamp={timestamp}
-                            user={user}
-                            userImage={userImage} />
-                    );
-                })}
-            </div>
+                {roomMessages.map(({ message, timestamp, user, userImage }) => (
+                    <Message
+                        message={message}
+                        timestamp={timestamp}
+                        user={user}
+                        userImage={userImage}
+                    />
+             ))}
+      </div>
+
+            <ChatInput channelName={roomDetails?.name} channelId={roomId} />
         </div>
     )
 }

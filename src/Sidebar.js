@@ -14,10 +14,12 @@ import ExpandMoreIcon from  "@material-ui/icons/ExpandMore";
 import AddIcon from "@material-ui/icons/Add";
 import SidebarOption from "./SidebarOption";
 import db from './Firebase';
+import {useStateValue} from "./StateProvider";
 
 function Sidebar() {
 
     const [channels, setChannels] = useState([]);
+    const [{user}] = useStateValue();
 
     useEffect (() => {
         // run this code ONCE when sidebar component loads (due to blank dependency [])
@@ -35,10 +37,10 @@ function Sidebar() {
         <div className="sidebar">
             <div className="sidebar__header">
                 <div className="sidebar__info">
-                    <h2>Emma McDonald-Brown</h2>  
+                    <h2>EMBDeveloper</h2>  
                     <h3>
                         <FibreManualRecordIcon/>
-                        Gary Brown
+                        {user?.displayName}
                     </h3>
                 </div>
                 <CreateIcon/>
